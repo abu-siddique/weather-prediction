@@ -11,13 +11,23 @@ A Spring Boot application that provides weather forecasts with smart caching and
 
 ## UI Screenshots
 
-### Search Page
+### Online Mode
+#### Search Page
 ![City Search Page](./docs/UI_PAGE_1.png)
 *Enter your city name to get weather forecast*
 
-### Results Page
+#### Results Page
 ![Weather Results Page](./docs/UI_PAGE_2.png)
-*Weather forecast results with alerts*
+*Weather forecast results with alerts (Live API)*
+
+### Offline Mode
+#### Results from Cache
+![Offline Results - Cached](./docs/UI_PAGE_OFFLINE_CACHED.png)
+*Weather forecast from cached data when API is unavailable*
+
+#### No Cache Data Available
+![Offline Results - No Cache](./docs/UI_PAGE_OFFLINE_NO_CACHE.png)
+*Error message when API is down and no cache exists*
 
 ## Architecture
 

@@ -61,6 +61,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     cacheWeatherData(city, weatherData);
                 } catch (apiError) {
                     console.warn('API request failed:', apiError);
+                    if (apiError.message.toLowerCase().includes("city not found")) {
+                        throw new Error(
+                          "City not found. Please check the spelling and try again."
+                        );
+                      }
                     weatherData = getCachedWeather(city);
                     if (!weatherData) {
                         throw new Error('Service unavailable and no cached data');
