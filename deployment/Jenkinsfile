@@ -1,0 +1,92 @@
+pipeline {
+    agent any
+    tools {
+        maven 'Maven'
+        jdk 'java'
+    }
+
+
+    environment {
+        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
+        APP_NAME = "weather-prediction"
+        VERSION = "${env.BUILD_ID}"
+        DOCKER_IMAGE = "abusiddique198/${APP_NAME}:${VERSION}"
+    }
+
+    stages {
+        // Stage 1: Checkout code
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        // Stage 2: Build and test
+        stage('Build Maven') {
+            steps {
+                sh 'mvn clean test package'
+            }
+        }
+
+        //Stage 3: Publish Test Result
+        stage('Publish Test Result'){
+            steps {
+                junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
+            }
+
+        }
+
+        // Stage 4: Build Docker image
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build(DOCKER_IMAGE)
+                }
+            }
+        }
+
+        // Stage 5: Push to Docker Hub
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_HUB_CREDENTIALS) {
+                        docker.image(DOCKER_IMAGE).push()
+                    }
+                }
+            }
+        }
+
+        // Stage 6 : Twistlock Docker Security Scan
+        stage('Twistlock Docker Security Scan'){
+            when{
+                anyOf {
+                    branch 'develop'
+                    branch 'main'
+                }
+            }
+            steps{
+                script{
+                        // your logic for docker scan
+                }
+            }
+        }
+
+        // Stage 7: Deploy to Kubernetes
+        stage('Deploy to K8s Dev') {
+            steps {
+                script {
+                    //deploy to k8s
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Job was successfull'
+        }
+        failure {
+           echo 'Job failed'
+        }
+    }
+}
