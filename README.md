@@ -12,20 +12,20 @@ A Spring Boot application that provides weather forecasts with smart caching and
 ## UI Screenshots
 
 ### Search Page
-![City Search Page](./UI_PAGE_1.png)
+![City Search Page](./docs/UI_PAGE_1.png)
 *Enter your city name to get weather forecast*
 
 ### Results Page
-![Weather Results Page](./UI_PAGE_2.png)
+![Weather Results Page](./docs/UI_PAGE_2.png)
 *Weather forecast results with alerts*
 
 ## Architecture
 
 ### UML  Diagram
-![UML Diagram](./uml.png)
+![UML Diagram](./docs/uml.png)
 
 ### Sequence Flow
-![Sequence Flow](./sequence.png)
+![Sequence Flow](./docs/sequence.png)
 
 ## Technology Stack
 
